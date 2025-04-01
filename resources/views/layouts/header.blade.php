@@ -475,14 +475,14 @@
                         <img src="assets/images/users/avatar-1.jpg" width="24"
                             class="rounded-circle me-lg-2 d-flex" alt="user-image">
                         <span class="d-lg-flex flex-column gap-1 d-none">
-                            Dhanoo K.
+                            {{ auth()->user()->name }}
                         </span>
                         <i class="ti ti-chevron-down d-none d-lg-block align-middle ms-2"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end">
                         <!-- item-->
                         <div class="dropdown-header noti-title">
-                            <h6 class="text-overflow m-0">Welcome !</h6>
+                            <h6 class="text-overflow m-0">Welcome {{ auth()->user()->name }}!</h6>
                         </div>
 
                         <!-- item-->
@@ -493,32 +493,19 @@
 
                         <!-- item-->
                         <a href="javascript:void(0);" class="dropdown-item">
-                            <i class="ti ti-wallet me-1 fs-17 align-middle"></i>
-                            <span class="align-middle">Wallet : <span class="fw-semibold">$985.25</span></span>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">
                             <i class="ti ti-settings me-1 fs-17 align-middle"></i>
                             <span class="align-middle">Settings</span>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">
-                            <i class="ti ti-lifebuoy me-1 fs-17 align-middle"></i>
-                            <span class="align-middle">Support</span>
                         </a>
 
                         <div class="dropdown-divider"></div>
 
                         <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">
-                            <i class="ti ti-lock-square-rounded me-1 fs-17 align-middle"></i>
-                            <span class="align-middle">Lock Screen</span>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item active fw-semibold text-danger">
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                        <a href="javascript:void(0);"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                            class="dropdown-item fw-semibold text-danger">
                             <i class="ti ti-logout me-1 fs-17 align-middle"></i>
                             <span class="align-middle">Sign Out</span>
                         </a>

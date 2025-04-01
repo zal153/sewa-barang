@@ -3,13 +3,13 @@
     <!-- Brand Logo -->
     <a href="index.html" class="logo">
         <span class="logo-light">
-            <span class="logo-lg"><img src="assets/images/logo.png" alt="logo"></span>
-            <span class="logo-sm text-center"><img src="assets/images/logo-sm.png" alt="small logo"></span>
+            <span class="logo-lg"><img src="assets/images/logo_unibamadura.png" alt="logo" style="width: 100%; height:auto;"></span>
+            <span class="logo-sm text-center"><img src="assets/images/logo-small.png" alt="small logo" style="width: 115%; height:50%;"></span>
         </span>
 
         <span class="logo-dark">
-            <span class="logo-lg"><img src="assets/images/logo-dark.png" alt="dark logo"></span>
-            <span class="logo-sm text-center"><img src="assets/images/logo-sm.png" alt="small logo"></span>
+            <span class="logo-lg"><img src="assets/images/logo_unibamadura.png" alt="dark logo" style="width: 100%; height:auto;"></span>
+            <span class="logo-sm text-center"><img src="assets/images/logo-small.png" alt="small logo" style="width: 115%; height:50%;"></span>
         </span>
     </a>
 
@@ -38,9 +38,9 @@
             <li class="side-nav-title mt-2">Apps & Pages</li>
 
             <li class="side-nav-item">
-                <a href="apps-chat.html" class="side-nav-link">
+                <a href="{{ route('barang') }}" class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-message-filled"></i></span>
-                    <span class="menu-text"> Chat </span>
+                    <span class="menu-text"> Barang </span>
                 </a>
             </li>
 

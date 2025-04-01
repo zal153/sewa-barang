@@ -36,6 +36,7 @@
         <!-- ============================================================== -->
         <!-- Start Page Content here -->
         <!-- ============================================================== -->
+        {{-- <x-notification title="Admin" message="Selamat Datang Admin"/> --}}
         <div class="page-content">
             @yield('content')
             <!-- container -->

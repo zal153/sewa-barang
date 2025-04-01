@@ -11,88 +11,67 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pengguna', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->enum('role', ['admin', 'mahasiswa', 'dosen', 'staff']);
-            $table->rememberToken();
-            $table->timestamps();
-        });
 
-        Schema::create('kategori_fasilitas', function (Blueprint $table) {
+        Schema::create('kategori_barang', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
+            $table->string('nama_kategori');
             $table->text('deskripsi')->nullable();
             $table->timestamps();
         });
 
-        Schema::create('fasilitas', function (Blueprint $table) {
+        Schema::create('barang', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
+            $table->string('kode_barang')->unique();
+            $table->string('nama_barang');
+            $table->unsignedBigInteger('kategori_id');
             $table->text('deskripsi')->nullable();
-            $table->integer('kapasitas');
-            $table->string('lokasi');
-            $table->enum('status', ['tersedia', 'dibooking', 'pemeliharaan']);
-            $table->decimal('harga_per_jam', 10, 2);
-            $table->foreignId('kategori_id')->constrained('kategori_fasilitas')->onDelete('cascade');
+            $table->string('kondisi');
+            $table->string('lokasi_penyimpanan');
+            $table->integer('stok_total');
+            $table->integer('stok_tersedia');
             $table->timestamps();
+
+            $table->foreign('kategori_id')->references('id')->on('kategori_barang')->onDelete('cascade');
         });
 
-        Schema::create('gambar_fasilitas', function (Blueprint $table) {
+        Schema::create('peminjaman', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('fasilitas_id')->constrained('fasilitas')->onDelete('cascade');
-            $table->string('path_gambar');
+            $table->string('kode_peminjaman')->unique();
+            $table->unsignedBigInteger('user_id');
+            $table->datetime('tanggal_peminjaman');
+            $table->datetime('tanggal_pengembalian');
+            $table->text('tujuan_peminjaman')->nullable();
+            $table->enum('status', ['diajukan', 'disetujui', 'dipinjam', 'dikembalikan', 'ditolak', 'terlambat'])->default('diajukan');
+            $table->text('catatan')->nullable();
+            $table->unsignedBigInteger('disetujui_oleh')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('disetujui_oleh')->references('id')->on('users')->onDelete('set null');
         });
 
-        Schema::create('fasilitas_tambahan', function (Blueprint $table) {
+        Schema::create('detail_peminjaman', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->timestamps();
-        });
-
-        Schema::create('fasilitas_tambahan_pivot', function (Blueprint $table) {
-            $table->foreignId('fasilitas_id')->constrained('fasilitas')->onDelete('cascade');
-            $table->foreignId('fasilitas_tambahan_id')->constrained('fasilitas_tambahan')->onDelete('cascade');
-            $table->primary(['fasilitas_id', 'fasilitas_tambahan_id']);
-        });
-
-        Schema::create('pemesanan', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('pengguna_id')->constrained('pengguna')->onDelete('cascade');
-            $table->foreignId('fasilitas_id')->constrained('fasilitas')->onDelete('cascade');
-            $table->date('tanggal_pemesanan');
-            $table->time('waktu_mulai');
-            $table->time('waktu_selesai');
-            $table->enum('status', ['pending', 'disetujui', 'ditolak', 'selesai']);
-            $table->decimal('total_harga', 10, 2);
-            $table->enum('status_pembayaran', ['belum_dibayar', 'dibayar', 'dibatalkan']);
+            $table->unsignedBigInteger('peminjaman_id');
+            $table->unsignedBigInteger('barang_id');
+            $table->integer('jumlah');
+            $table->enum('kondisi_saat_dipinjam', ['baik', 'rusak_ringan', 'rusak_berat'])->default('baik');
+            $table->enum('kondisi_saat_dikembalikan', ['baik', 'rusak_ringan', 'rusak_berat'])->nullable();
             $table->text('catatan')->nullable();
             $table->timestamps();
+
+            $table->foreign('peminjaman_id')->references('id')->on('peminjaman')->onDelete('cascade');
+            $table->foreign('barang_id')->references('id')->on('barang')->onDelete('cascade');
         });
 
-        Schema::create('pembayaran', function (Blueprint $table) {
+        Schema::create('log_aktivitas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pemesanan_id')->constrained('pemesanan')->onDelete('cascade');
-            $table->string('metode_pembayaran');
-            $table->decimal('jumlah', 10, 2);
-            $table->dateTime('tanggal_pembayaran');
-            $table->string('id_transaksi')->nullable();
-            $table->enum('status', ['pending', 'sukses', 'gagal']);
-            $table->text('bukti_pembayaran')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->string('aktivitas');
+            $table->text('deskripsi')->nullable();
             $table->timestamps();
-        });
 
-        Schema::create('ulasan', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('pengguna_id')->constrained('pengguna')->onDelete('cascade');
-            $table->foreignId('fasilitas_id')->constrained('fasilitas')->onDelete('cascade');
-            $table->foreignId('pemesanan_id')->constrained('pemesanan')->onDelete('cascade');
-            $table->integer('rating');
-            $table->text('komentar')->nullable();
-            $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -101,15 +80,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pengguna');
-        Schema::dropIfExists('kategori_fasilitas');
-        Schema::dropIfExists('fasilitas');
-        Schema::dropIfExists('gambar_fasilitas');
-        Schema::dropIfExists('fasilitas_tambahan');
-        Schema::dropIfExists('fasilitas_tambahan_pivot');
-        Schema::dropIfExists('pemesanan');
-        Schema::dropIfExists('pembayaran');
-        Schema::dropIfExists('ulasan');
         
+        Schema::dropIfExists('log_aktivitas');
+        Schema::dropIfExists('detail_peminjaman');
+        Schema::dropIfExists('peminjaman');
+        Schema::dropIfExists('barang');
+        Schema::dropIfExists('kategori_barang');
     }
 };
