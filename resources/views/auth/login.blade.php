@@ -1,57 +1,95 @@
+@section('title', 'Login')
 @include('layouts.style')
 
-@section('title', 'Login')
-
-<div class="auth-bg d-flex min-vh-90 justify-content-center align-items-center">
-    <div class="row g-0 justify-content-center w-100 m-xxl-5 px-xxl-4 m-3">
-        <div class="col-xl-4 col-lg-5 col-md-6">
-
-            <x-alerts class="center" message="Silahkan Login Terlebih Dahulu" />
-            
-            <div class="card overflow-hidden text-center h-90 p-xxl-4 p-3 mb-0">
-                <a href="index.html" class="auth-brand mb-3">
-                    <img src="assets/images/logo_unibamadura.png" alt="dark logo" height="30" class="logo-dark">
-                    <img src="assets/images/logo_unibamadura.png" alt="logo light" height="30" class="logo-light">
-                </a>
-
-                <form action="{{ route('authentication') }}" method="POST" class="text-start mb-3">
-                    @csrf
-                    <div class="mb-3">
-                        <label class="form-label" for="email">Email</label>
-                        <input type="email" id="email" name="email" class="form-control"
-                            placeholder="Masukkan Alamat Email">
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label" for="password">Password</label>
-                        <input type="password" name="password" id="password" class="form-control"
-                            placeholder="Masukkan Kata Sandi">
-                    </div>
-
-                    <div class="d-flex justify-content-between mb-3">
-                        <div class="form-check">
-                        </div>
-
-                        <a href="auth-recoverpw.html" class="text-muted border-bottom border-dashed">Lupa Kata Sandi</a>
-                    </div>
-
-                    <div class="d-grid">
-                        <button class="btn btn-primary" type="submit">Login</button>
-                    </div>
-                </form>
-
-                <p class="text-danger fs-14 mb-4">Tidak Punya Akun? <a href="auth-register.html"
-                        class="fw-semibold text-dark ms-1">Daftar Akun!</a></p>
-
-                <p class="mb-0">
-                    <script>
-                        document.write(new Date().getFullYear())
-                    </script> © <span
-                        class="fw-bold text-decoration-underline text-uppercase text-reset fs-12 ">Rizal</span>
-                </p>
+<div id="loader" class="w-screen h-screen flex-center bg-white dark:bg-dark-card fixed inset-0 z-[9999]">
+    <img src="assets/pre-loader/bar-loader.gif" alt="loader">
+</div>
+<div class="main-content m-4">
+    <div
+        class="grid grid-cols-12 gap-y-7 sm:gap-7 card px-4 sm:px-10 2xl:px-[70px] py-15 lg:items-center lg:min-h-[calc(100vh_-_32px)]">
+        <!-- Start Overview Area -->
+        <div class="col-span-full lg:col-span-6">
+            <div class="flex flex-col items-center justify-center gap-10 text-center">
+                <div class="hidden sm:block">
+                    <img src="assets/images/loti/loti-auth.svg" alt="loti" class="group-[.dark]:hidden">
+                    <img src="assets/images/loti/loti-auth-dark.svg" alt="loti" class="group-[.light]:hidden">
+                </div>
+                <div>
+                    <h3 class="text-xl md:text-[28px] leading-none font-semibold text-heading">
+                        Welcome back!
+                    </h3>
+                    <p class="font-medium text-gray-500 dark:text-dark-text mt-4 px-[10%]">
+                        Whether you're launching a stunning online store optimizing your our object-oriented
+                    </p>
+                </div>
             </div>
         </div>
+        <!-- End Overview Area -->
+
+        <!-- Start Form Area -->
+        <div class="col-span-full lg:col-span-6 w-full lg:max-w-[600px]">
+            <div
+                class="border border-form dark:border-dark-border p-5 md:p-10 rounded-20 md:rounded-30 dk-theme-card-square">
+                <h3 class="text-xl md:text-[28px] leading-none font-semibold text-heading">
+                    Sign In
+                </h3>
+                <p class="font-medium text-gray-500 dark:text-dark-text mt-4">
+                    Welcome Back! Log in to your account
+                </p>
+                <form action="" method="POST" class="leading-none mt-8">
+                    <div class="mb-2.5">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" id="email" placeholder="debra.holt@example.com" required
+                            class="form-input px-4 py-3.5 rounded-lg">
+                    </div>
+                    <div class="mt-5">
+                        <label for="password" class="form-label">Password</label>
+                        <div class="relative">
+                            <input type="password" id="password" placeholder="Password" required
+                                class="form-input px-4 py-3.5 rounded-lg">
+                            <label for="toggleInputType"
+                                class="size-8 rounded-md flex-center hover:bg-gray-200 dark:hover:bg-dark-icon foucs:bg-gray-200 dark:foucs:bg-dark-icon position-center !left-auto -right-2.5">
+                                <input type="checkbox" id="toggleInputType" class="inputTypeToggle peer/it" hidden>
+                                <i
+                                    class="ri-eye-off-line text-gray-500 dark:text-dark-text peer-checked/it:before:content-['\ecb5']"></i>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between mt-3 mb-7">
+                        <div class="flex items-center gap-1 select-none">
+                            <input type="checkbox" name="remember-me" id="rememberMe">
+                            <label for="rememberMe"
+                                class="font-spline_sans text-sm leading-none text-gray-900 dark:text-dark-text cursor-pointer">Remember
+                                Me</label>
+                        </div>
+                        <a href="forgot-password.html"
+                            class="text-xs leading-none text-primary-500 font-semibold">Forgot password?</a>
+                    </div>
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn b-solid btn-primary-solid w-full dk-theme-card-square">Sign
+                        In</button>
+                </form>
+                <div class="font-spline_sans text-gray-900 dark:text-dark-text leading-none text-center my-4">OR</div>
+                <div class="flex items-center flex-col xl:flex-row gap-4 2xl:gap-5">
+                    <a href="#"
+                        class="btn b-outline-static btn-disable-outline w-full grow xl:w-auto dk-theme-card-square">
+                        <img src="assets/images/icons/google.svg" alt="icon">
+                        <span class="shrink-0">Sign in with Google</span>
+                    </a>
+                    <a href="#"
+                        class="btn b-outline-static btn-disable-outline w-full grow xl:w-auto dk-theme-card-square">
+                        <img src="assets/images/icons/apple.svg" alt="icon" class="dark:brightness-[3]">
+                        <span class="shrink-0">Continue with Apple</span>
+                    </a>
+                </div>
+                <div class="text-gray-900 dark:text-dark-text font-medium leading-none mt-5">
+                    Don’t have an account yet?
+                    <a href="sign-up.html" class="text-primary-500 font-semibold">Sign Up</a>
+                </div>
+            </div>
+        </div>
+        <!-- End Form Area -->
     </div>
 </div>
 
-@include('layouts.script')
+@include('layout.script')

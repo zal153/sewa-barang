@@ -1,18 +1,16 @@
 <footer class="footer">
-    <div class="page-container">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-md-6 text-center text-md-start">
-                <script>
-                    document.write(new Date().getFullYear())
-                </script> © Boron - By <span
-                    class="fw-bold text-decoration-underline text-uppercase text-reset fs-12">Coderthemes</span>
+            <div class="col-md-6 footer-copyright">
+                <p class="mb-0">Copyright 2024 © Admiro theme by pixelstrap.</p>
             </div>
             <div class="col-md-6">
-                <div class="text-md-end footer-links d-none d-md-block">
-                    <a href="javascript: void(0);">About</a>
-                    <a href="javascript: void(0);">Support</a>
-                    <a href="javascript: void(0);">Contact Us</a>
-                </div>
+                <p class="float-end mb-0">Hand crafted &amp; made with
+                    <svg class="svg-color footer-icon">
+                        <use href="https://admin.pixelstrap.net/admiro/asset/svg/iconly-sprite.svg#heart">
+                        </use>
+                    </svg>
+                </p>
             </div>
         </div>
     </div>
